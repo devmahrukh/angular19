@@ -1,0 +1,31 @@
+<div class="container">
+<h1>🎟️ Event Booking</h1>
+
+<!-- Dropdown for selecting location -->
+<div>
+  <label for="locationFilter">Filter by Location:</label>
+  <select id="locationFilter" [(ngModel)]="selectedLocation">
+    <option *ngFor="let location of locations" [value]="location">{{ location }}</option>
+  </select>
+</div>
+
+<!-- Search box for filtering events by title -->
+<div>
+  <label for="eventSearch">Search Events:</label>
+  <input type="text" id="eventSearch" [(ngModel)]="searchQuery" placeholder="Search by event title">
+</div>
+
+<!-- Display events -->
+<div class="events">
+  <div class="card" *ngFor="let event of getFilteredEvents()">
+    <h2>{{ event.title }}</h2>
+    <p>{{ event.date }} | {{ event.location }}</p>
+    <button (click)="bookEvent(event)">Book Now</button>
+  </div>
+</div>
+
+<!-- Booking confirmation message -->
+<div *ngIf="bookingMessage" class="alert">
+  ✅ {{ bookingMessage }}
+</div>
+</div>

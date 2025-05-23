@@ -1,0 +1,59 @@
+<div *ngIf="showSplash" class="splash-screen">
+<h1 class="splash-title">🎉 Welcome to EventBooker!</h1>
+<p class="splash-subtitle">Loading your experience...</p>
+</div>
+
+<div *ngIf="!showSplash" class="container">
+<h1>🎟️ Event Booking</h1>
+
+<!-- Filters -->
+<div>
+  <label for="locationFilter">Filter by Location:</label>
+  <select id="locationFilter" [(ngModel)]="selectedLocation">
+    <option *ngFor="let location of locations" [value]="location">
+      {{ location }}
+    </option>
+  </select>
+</div>
+
+<div>
+  <label for="eventSearch">Search Events:</label>
+  <input
+    type="text"
+    id="eventSearch"
+    [(ngModel)]="searchQuery"
+    placeholder="Search by event title"
+  />
+</div>
+
+<button (click)="toggleFavoritesView()" style="margin: 10px 0;">
+  {{ showFavoritesOnly ? 'Show All Events' : 'Show Favorites Only' }}
+</button>
+
+<!-- Event Cards -->
+<div class="events">
+  <div class="card" *ngFor="let event of getFilteredEvents()">
+    <h2>{{ event.title }}</h2>
+    <p>{{ event.date }} | {{ event.location }}</p>
+    <button (click)="bookEvent(event)">Book Now</button>
+    <button (click)="toggleFavorite(event)">
+      {{
+        isFavorite(event) ? '❤️ Remove from Favorites' : '🤍 Add to Favorites'
+      }}
+    </button>
+  </div>
+</div>
+
+<!-- Booking Confirmation Modal -->
+<div class="modal-overlay" *ngIf="showModal">
+  <div class="modal-content">
+    <h2>🎉 Booking Confirmed!</h2>
+    <p>
+      You’ve successfully booked <strong>{{ bookedEventTitle }}</strong
+      >!
+    </p>
+    <p>Check your email for details.</p>
+    <button (click)="closeModal()">Close</button>
+  </div>
+</div>
+</div>
